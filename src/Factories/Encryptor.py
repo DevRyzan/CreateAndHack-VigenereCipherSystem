@@ -1,14 +1,14 @@
 
 import sys
-sys.path.append('/Users/rezansoylemez/Desktop/UEMasterProjects/MuhammedRezan_Soylemez/Task1/src')
+sys.path.append('../../src')
 
 def encrypt(plaintext, key):
     ciphertext = []
       
     key_index = 0
     for char in plaintext:
-        if char.isalpha():  # Sadece harfler şifrelenir
-            shift = ord(key[key_index % len(key)]) - ord('a')  # Anahtar harfinin kaydırma miktarı
+        if char.isalpha():  
+            shift = ord(key[key_index % len(key)]) - ord('a')   
             if char.islower():
                 encrypted_char = chr((ord(char) - ord('a') + shift) % 26 + ord('a'))
             elif char.isupper():
@@ -16,6 +16,6 @@ def encrypt(plaintext, key):
             ciphertext.append(encrypted_char)
             key_index += 1
         else:
-            ciphertext.append(char)  # Harf olmayan karakterler değişmeden kalır
+            ciphertext.append(char)  
 
     return ''.join(ciphertext)  

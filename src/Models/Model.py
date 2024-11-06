@@ -4,14 +4,15 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'F
 from Factories.KeyGenerator import generate_key
 
 class ModelProp:
-    _key = None  # Tek bir anahtar olarak saklanacak
+    _key = None   
 
     @classmethod
-    def get_key(cls, length=10):  # length parametresi eklenmeli
-        if cls._key is None:  # Anahtar henüz yoksa oluştur
-            cls._key = generate_key(length)  # Anahtar uzunluğunu parametre olarak al
+    def get_key(cls, length=10):  
+
+        if cls._key is None:   
+            cls._key = generate_key(length)   
         return cls._key
 
     @property
     def key(self):
-        return self.get_key()  # Property olarak anahtarı döndür
+        return self.get_key()   
