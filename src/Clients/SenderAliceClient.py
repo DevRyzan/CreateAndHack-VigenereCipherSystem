@@ -1,7 +1,6 @@
 import sys
 import os
-sys.path.append('/Users/rezansoylemez/Desktop/UEMasterProjects/MuhammedRezan_Soylemez/Task1/src')
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'Factories')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../src')))
 import subprocess  
 from Models.Model import ModelProp
 from Factories.Encryptor import encrypt
