@@ -10,18 +10,14 @@ from Factories.Encryptor import encrypt
 
 class SenderAliceClient:
     def __init__(self):
-        # Model'den key alınır
         self.key_value = ModelProp.get_key()
         
-        # Kullanıcıdan plaintext alınır
         self.plaintext = input("Enter the plaintext to encrypt: ")
         
-        # Mesajı şifrele ve sonucu yazdır
         self.encrypted_message = self.encrypt_message(self.plaintext, self.key_value)
         print(f"Encrypted message: {self.encrypted_message}")
 
     def encrypt_message(self, plaintext, key):
-        """Verilen metni ve anahtarı kullanarak şifreler."""
         return encrypt(plaintext, key)
 
 if __name__ == "__main__":
