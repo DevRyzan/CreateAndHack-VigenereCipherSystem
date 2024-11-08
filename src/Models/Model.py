@@ -7,7 +7,7 @@ class ModelProp:
     _key = None   
 
     @classmethod
-    def get_key(cls, length=10):  
+    def get_key(cls, length=2):  
 
         if cls._key is None:   
             cls._key = generate_key(length)   
