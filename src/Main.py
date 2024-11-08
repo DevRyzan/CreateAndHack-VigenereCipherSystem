@@ -2,21 +2,21 @@ import subprocess
 import sys
 import os
 
+# Path ayarlaması yapılıyor
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../src')))
+
+from Clients.SenderAliceClient import SenderAliceClient
+from Clients.ReceiverBobClient import Receiver
+
 class Main:
     def __init__(self):
-        self.start_sender_and_receiver()
+        sender = SenderAliceClient()
+        
+        encrypted_message = sender.encrypted_message
+        print(f"Main received encrypted message: {encrypted_message}")
 
-    def start_sender_and_receiver(self):
-        sender_path = os.path.join(os.path.dirname(__file__), 'Clients/SenderAliceClient.py')
-        receiver_path = os.path.join(os.path.dirname(__file__), 'Clients/ReceiverBobClient.py')
-
-
-        sender_process = subprocess.Popen([sys.executable, sender_path])
-
-        receiver_process = subprocess.Popen([sys.executable, receiver_path])
-
-        sender_process.wait()
-        receiver_process.wait()
+        receiver = Receiver()
+        receiver.receive_message(encrypted_message)
 
 if __name__ == "__main__":
-    Main()
+    main = Main()
