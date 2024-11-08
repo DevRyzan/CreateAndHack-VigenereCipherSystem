@@ -6,25 +6,45 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../s
 from Clients.SenderAliceClient import SenderAliceClient
 from Clients.ReceiverBobClient import Receiver
 from Hacker.Cleint.HackerOscarClient import HackerOscarClient
+url = "https://raw.githubusercontent.com/dwyl/english-words/master/words.txt"
+
 
 class Main:
     def __init__(self):
+        """Initialize the Main class and run the communication process."""
         self.run_communication()
 
     def run_communication(self):
+        """Handle the communication process: sending and receiving the encrypted message."""
+        # Initialize the sender client and retrieve the encrypted message
         sender = SenderAliceClient()
         encrypted_message = sender.encrypted_message
 
+        # Initialize the receiver client and receive the encrypted message
         receiver = Receiver()
         receiver.receive_message(encrypted_message)
-
+        
+        # Print the file path for the wordlist file
+        print("Looking for wordlist file at:", os.path.join(os.path.dirname(__file__), "turkish_wordsList.txt"))
+        
+        # Prompt the user to decide whether Oscar (the hacker) should attempt to decrypt the message
         hack_attempt = input("Do you want Oscar to try hacking the message? (yes/no): ").strip().lower()
 
+        # If user agrees, initiate the decryption process
         if hack_attempt == 'yes':
-            hacker = HackerOscarClient(encrypted_message, max_key_length=3)
-            hacker.attempt_hack()
+            self.run_decryption()
         else:
             print("Oscar's hacking attempt was skipped.")
 
+    def run_decryption(self):
+        """Start the decryption process if the user approves."""
+        print("Welcome to the decryption application!")
+        
+        # Initialize the hacker client and start the decryption process
+        client = HackerOscarClient()
+        client.start_decryption()
+
+
+# Main execution entry point
 if __name__ == "__main__":
     Main()

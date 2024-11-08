@@ -11,11 +11,12 @@ from Factories.Encryptor import encrypt
 class SenderAliceClient:
     def __init__(self):
         self.key_value = ModelProp.get_key()
-        
+        generated_key = ModelProp.get_key()
         self.plaintext = input("Enter the plaintext to encrypt: ")
         
         self.encrypted_message = self.encrypt_message(self.plaintext, self.key_value)
         print(f"Encrypted message: {self.encrypted_message}")
+        print(f"Key : {generated_key}")
     def encrypt_message(self, plaintext, key):
         return encrypt(plaintext, key)
 
