@@ -4,7 +4,11 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../s
 from Hacker.Factory.BruteForceDecryptor import BruteForceDecryptor
 
 
+# Add the src directory to the system path for module imports
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../src')))
 
+# Import the BruteForceDecryptor class from the Factory directory for decryption purposes
+from Hacker.Factory.BruteForceDecryptor import BruteForceDecryptor
 
 class HackerOscarClient:
     def __init__(self):
@@ -12,31 +16,31 @@ class HackerOscarClient:
         self.decrypted_message = None
 
     def get_input(self):
-        """Kullanıcıdan şifreli mesajı al"""
-        self.encrypted_message = input("Lütfen şifreli metni girin: ")
+        self.encrypted_message = input("Please encrypted message: ")
         if not self.encrypted_message:
-            print("Geçerli bir şifreli metin girin.")
+            # Ensure a valid encrypted message is provided
+            print("enter encrypted message.")
             return False
         return True
 
     def start_decryption(self):
-        """Şifre çözme işlemini başlatır"""
         if not self.get_input():
             return
 
+        # Initialize the decryptor with the encrypted message and a key length limit of 2
         decryptor = BruteForceDecryptor(self.encrypted_message, key_length=2)
         self.decrypted_message = decryptor.brute_force_decrypt()
 
+        # Output the decryption result
         if self.decrypted_message:
-            print(f"Çözülmüş mesaj: {self.decrypted_message}")
+            print(f"Decrypted message: {self.decrypted_message}")
         else:
-            print("Şifre çözme işlemi başarısız oldu.")
+            print("Decryption failed.")
 
-# Ana işlevi başlatan kod:
+# Main function to initiate the decryption client
 if __name__ == "__main__":
-    client = Client()
+    client = HackerOscarClient()
     client.start_decryption()
-
 
 # class HackerOscarClient:
 #     def __init__(self, encrypted_message, max_key_length=3):

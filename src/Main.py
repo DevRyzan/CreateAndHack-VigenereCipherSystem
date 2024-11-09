@@ -28,17 +28,18 @@ class Main:
         print("Looking for wordlist file at:", os.path.join(os.path.dirname(__file__), "turkish_wordsList.txt"))
         
         # Prompt the user to decide whether Oscar (the hacker) should attempt to decrypt the message
-        hack_attempt = input("Do you want Oscar to try hacking the message? (yes/no): ").strip().lower()
+        hack_attempt = input("Hello Oscar Do you want to use Brut Forth Tec (yes/no): ").strip().lower()
 
         # If user agrees, initiate the decryption process
-        if hack_attempt == 'yes':
+        if hack_attempt == 'y' or "yes":
             self.run_decryption()
+        if hack_attempt=="n"or "no":
+            print("Oscar's hacking attempt was skipped.")
         else:
             print("Oscar's hacking attempt was skipped.")
 
     def run_decryption(self):
-        """Start the decryption process if the user approves."""
-        print("Welcome to the decryption application!")
+        print("Hacking started")
         
         # Initialize the hacker client and start the decryption process
         client = HackerOscarClient()
