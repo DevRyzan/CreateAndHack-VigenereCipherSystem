@@ -10,10 +10,12 @@ class Receiver:
         self.received_message = ""   
     def receive_message(self, encrypted_message):
 
+        print("-------Bob Client------")
+
         self.received_message = encrypted_message
         print(f"Received encrypted message: {self.received_message}")
         decrypted_message = decrypt(self.received_message, self.key)
-        print(f"Decrypted message: {decrypted_message}")
+        print(f"Alice message :  {decrypted_message}")
 
 
 if __name__ == "__main__":

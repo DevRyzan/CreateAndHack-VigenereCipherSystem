@@ -1,14 +1,10 @@
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../src')))
-from Hacker.Factory.BruteForceDecryptor import BruteForceDecryptor
-
 
 # Add the src directory to the system path for module imports
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../src')))
-
-# Import the BruteForceDecryptor class from the Factory directory for decryption purposes
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../src'))) 
 from Hacker.Factory.BruteForceDecryptor import BruteForceDecryptor
+from Hacker.Factory.FrequencyAnalysisDecryptor import FrequencyAnalysisDecryptor  
 
 class HackerOscarClient:
     def __init__(self):
@@ -16,46 +12,53 @@ class HackerOscarClient:
         self.decrypted_message = None
 
     def get_input(self):
-        self.encrypted_message = input("Please encrypted message: ")
+        self.encrypted_message = input("Please enter the encrypted message: ")
         if not self.encrypted_message:
-            # Ensure a valid encrypted message is provided
-            print("enter encrypted message.")
+            print("You must enter an encrypted message.")
             return False
         return True
 
+    def get_method_choice(self):
+        print("\nChoose the decryption method:")
+        print("1. Brute Force Decryption")
+        print("2. Frequency Analysis Decryption")
+
+        choice = input("Enter 1 or 2: ")
+        if choice not in ['1', '2']:
+            print("Invalid choice. Please enter 1 or 2.")
+            return self.get_method_choice()
+        
+        return int(choice)
+
     def start_decryption(self):
+        """Start the decryption process based on user input."""
         if not self.get_input():
             return
 
-        # Initialize the decryptor with the encrypted message and a key length limit of 2
-        decryptor = BruteForceDecryptor(self.encrypted_message, key_length=2)
-        self.decrypted_message = decryptor.brute_force_decrypt()
+        method_choice = self.get_method_choice()
+
+        if method_choice == 1:
+            # Brute Force Decryption
+            print("\nStarting brute force decryption...")
+            decryptor = BruteForceDecryptor(self.encrypted_message, key_length=2)
+            self.decrypted_message = decryptor.brute_force_decrypt()
+
+        elif method_choice == 2:
+            # Frequency Analysis Decryption
+            print("\nStarting frequency analysis decryption...")
+            decryptor = FrequencyAnalysisDecryptor(self.encrypted_message)  # Assuming class exists
+            
+            # Calculate the frequency of letters in the encrypted message
+            encrypted_frequency = decryptor.calculate_frequency()
+            
+            # Match frequencies between encrypted message and Turkish letter frequency
+            letter_mapping = decryptor.match_frequency(encrypted_frequency)
+            
+            # Decrypt the message using the mapped letters
+            self.decrypted_message = decryptor.decrypt_message(letter_mapping)
 
         # Output the decryption result
         if self.decrypted_message:
-            print(f"Decrypted message: {self.decrypted_message}")
+            print(f"\nDecrypted message: {self.decrypted_message}")
         else:
             print("Decryption failed.")
-
-# Main function to initiate the decryption client
-if __name__ == "__main__":
-    client = HackerOscarClient()
-    client.start_decryption()
-
-# class HackerOscarClient:
-#     def __init__(self, encrypted_message, max_key_length=3):
-#         self.decryptor = BruteForceDecryptor(encrypted_message, max_key_length)
-    
-#     def attempt_hack(self):
-#         print("Starting brute-force decryption...")
-#         decrypted_message = self.decryptor.brute_force_decrypt()
-        
-#         if decrypted_message:
-#             print("Decryption successful.")
-#         else:
-#             print("Failed to decrypt the message.")
-
-# if __name__ == "__main__":
-#     encrypted_message = input("Enter the encrypted message: ")
-#     hacker = HackerOscarClient(encrypted_message, max_key_length=3)
-#     hacker.attempt_hack()

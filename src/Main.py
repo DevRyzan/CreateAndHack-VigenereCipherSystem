@@ -6,6 +6,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../s
 from Clients.SenderAliceClient import SenderAliceClient
 from Clients.ReceiverBobClient import Receiver
 from Hacker.Cleint.HackerOscarClient import HackerOscarClient
+
 url = "https://raw.githubusercontent.com/dwyl/english-words/master/words.txt"
 
 
@@ -24,19 +25,17 @@ class Main:
         receiver = Receiver()
         receiver.receive_message(encrypted_message)
         
-        # Print the file path for the wordlist file
-        print("Looking for wordlist file at:", os.path.join(os.path.dirname(__file__), "turkish_wordsList.txt"))
-        
         # Prompt the user to decide whether Oscar (the hacker) should attempt to decrypt the message
-        hack_attempt = input("Hello Oscar Do you want to use Brut Forth Tec (yes/no): ").strip().lower()
+        print("-----Oscar's dark world-----")
+        hack_attempt = input("Hello Do you want to start Hacking (yes/no): ").strip().lower()
 
-        # If user agrees, initiate the decryption process
-        if hack_attempt == 'y' or "yes":
+        # Check if the user's input is 'y' or 'yes', otherwise skip the hacking attempt
+        if hack_attempt in ['y', 'yes']:
             self.run_decryption()
-        if hack_attempt=="n"or "no":
+        elif hack_attempt in ['n', 'no']:
             print("Oscar's hacking attempt was skipped.")
         else:
-            print("Oscar's hacking attempt was skipped.")
+            print("Invalid input. Please respond with 'yes' or 'no'.")
 
     def run_decryption(self):
         print("Hacking started")
@@ -45,7 +44,5 @@ class Main:
         client = HackerOscarClient()
         client.start_decryption()
 
-
-# Main execution entry point
 if __name__ == "__main__":
     Main()
