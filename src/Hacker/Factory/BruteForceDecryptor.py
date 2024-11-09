@@ -56,37 +56,43 @@ class BruteForceDecryptor:
         return ''.join(decrypted_text)
 
     def simple_stem(self, word):
-        suffixes = ["lar", "ler", "dır", "dir", "dan", "den", "ın", "in", "a", "e", "la", "le","m","n","nız","sın","ım","ın"]
+        suffixes = ["lar", "ler", "dır", "dir", "dan", "den", "ın", "in", "la", "le", "m", "n", "nız", "sın", "ım", "ın", "de", "ki", "me", "le", "ye"]
+
         for suffix in sorted(suffixes, key=len, reverse=True):
             if word.endswith(suffix):
                 return word[:-len(suffix)]
-        return word
+    
+        return word  
 
     def is_valid_decryption(self, decrypted_message):
         words = decrypted_message.lower().split()
 
         for word in words:
             root_word = self.simple_stem(word) 
+            print(f"Word: {word}, Root Word: {root_word}")  
             if root_word not in self.wordlist:
-                return False  
-
+                print(f"Invalid root word: {root_word} not found in wordlist.")
+                return False
+    
         return True  
+    
     def brute_force_decrypt(self):
-        counter =0
+        counter = 0
 
         for length in range(1, self.key_length + 1):
-            for key_tuple in product(self.alphabet, repeat=length):
-                
+            for key_tuple in product(self.alphabet,         repeat=length):
+            
                 key = ''.join(key_tuple)
                 decrypted_message = self.custom_decrypt(self.encrypted_message, key)
                 print(f"Trying key '{key}': {decrypted_message} , counter: {counter}")
-                
+            
                 if self.is_valid_decryption(decrypted_message):
                     print(f"Successful decryption with key '{key}': {decrypted_message}")
                     return decrypted_message
-                counter=counter+1
+                counter += 1
         print("No valid key found within the given key length limit.")
         return None
+    
 
 def download_wordlist(url):
     try:
