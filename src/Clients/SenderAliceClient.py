@@ -18,6 +18,10 @@ class SenderAliceClient:
         self.encrypted_message = self.encrypt_message(self.plaintext, self.key_value)
         print(f"Encrypted message: {self.encrypted_message}")
         print(f"Key : {generated_key}")
+        print("Encrypted text saved")
+
+        with open("plaintext.txt", "a") as f_plain:f_plain.write(f"-{self.encrypt_message}\n")
+
     def encrypt_message(self, plaintext, key):
         return encrypt(plaintext, key)
 

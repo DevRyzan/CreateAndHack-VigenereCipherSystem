@@ -2,7 +2,6 @@ from Models.TurksihAlphabet import TurksihAlphabetProp
 
 
 def decrypt(ciphertext, key):
-    # Türk alfabesindeki harfler
     turkish_alphabet = TurksihAlphabetProp().turkish_alphabet
     
     plaintext = []
