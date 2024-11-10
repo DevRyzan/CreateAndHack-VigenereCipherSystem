@@ -9,6 +9,16 @@ class HackerOscarClient:
         self.encrypted_message = None
         self.decrypted_message = None
 
+    def load_wordlist(self, filepath):
+        """Dosyadan kelimeleri okuyup bir wordlist seti olarak döndürür."""
+        try:
+            with open(filepath, 'r', encoding='utf-8') as file:
+                words = file.read().splitlines()  # Satır satır okuyup listeye dönüştürür
+            return set(words)  # Hızlı arama için set olarak döndür
+        except FileNotFoundError:
+            print(f"Wordlist file not found at {filepath}")
+            return set()  # Boş set döndür, böylece işlem devam edebilir
+
     def get_input(self):
         self.encrypted_message = input("Please enter the encrypted message: ")
         if not self.encrypted_message:
@@ -36,9 +46,13 @@ class HackerOscarClient:
         method_choice = self.get_method_choice()
 
         if method_choice == 1:
+            wordlist_file = os.path.join(os.path.dirname(__file__), "turkish_wordsList.txt")
+            self.wordlist = self.load_wordlist(wordlist_file)
+        
             # Brute Force Decryption
             print("\nStarting brute force decryption...")
-            decryptor = BruteForceDecryptor(self.encrypted_message, key_length=2)
+
+            decryptor = BruteForceDecryptor(self.encrypted_message, self.wordlist, max_key_length=2)
             self.decrypted_message = decryptor.brute_force_decrypt()
 
         elif method_choice == 2:
