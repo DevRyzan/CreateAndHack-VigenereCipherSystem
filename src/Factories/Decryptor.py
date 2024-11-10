@@ -7,7 +7,7 @@ def decrypt(ciphertext, key):
     plaintext = []
     key_index = 0
     for char in ciphertext:
-        if char in turkish_alphabet:  # Yalnızca Türk alfabesinde bulunan karakterler için işlem yap
+        if char in turkish_alphabet:   
             shift = turkish_alphabet.index(key[key_index % len(key)])
             
             if char.islower():
@@ -18,7 +18,7 @@ def decrypt(ciphertext, key):
             plaintext.append(decrypted_char)
             key_index += 1
         else:
-            # Türk alfabesinde olmayan karakterler doğrudan eklenir
+             
             plaintext.append(char)
 
     return ''.join(plaintext)
