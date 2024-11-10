@@ -16,7 +16,8 @@ class Receiver:
         print(f"Received encrypted message: {self.received_message}")
         decrypted_message = decrypt(self.received_message, self.key)
         print(f"Alice message :  {decrypted_message}")
-
+        
+        with open("decryptedtext.txt", "a") as f_plain:f_plain.write(f"-{decrypted_message}\n")
 
 if __name__ == "__main__":
     encrypted_message = input("Enter the encrypted message: ")
