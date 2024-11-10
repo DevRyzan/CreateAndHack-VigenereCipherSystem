@@ -1,76 +1,23 @@
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../src'))) 
-from Hacker.Factory.BruteForceDecryptor import BruteForceDecryptor
-from Hacker.Factory.FrequencyAnalysisDecryptor import FrequencyAnalysisDecryptor  
+from Hacker.Factory.BruteForce import BruteForce
+from Factories.Decryptor import decrypt
 
 class HackerOscarClient:
-    def __init__(self):
-        self.encrypted_message = None
-        self.decrypted_message = None
+    def __init__(self, wordlist_path="turkish_wordsList.txt"):
+        self.brute_force = BruteForce(wordlist_path)
 
-    def load_wordlist(self, filepath):
-        """Dosyadan kelimeleri okuyup bir wordlist seti olarak döndürür."""
-        try:
-            with open(filepath, 'r', encoding='utf-8') as file:
-                words = file.read().splitlines()  # Satır satır okuyup listeye dönüştürür
-            return set(words)  # Hızlı arama için set olarak döndür
-        except FileNotFoundError:
-            print(f"Wordlist file not found at {filepath}")
-            return set()  # Boş set döndür, böylece işlem devam edebilir
-
-    def get_input(self):
-        self.encrypted_message = input("Please enter the encrypted message: ")
-        if not self.encrypted_message:
-            print("You must enter an encrypted message.")
-            return False
-        return True
-
-    def get_method_choice(self):
-        print("\nChoose the decryption method:")
-        print("1. Brute Force Decryption")
-        print("2. Frequency Analysis Decryption")
-
-        choice = input("Enter 1 or 2: ")
-        if choice not in ['1', '2']:
-            print("Invalid choice. Please enter 1 or 2.")
-            return self.get_method_choice()
+    def start_decryption(self, encrypted_message):
+        key_length = int(input("Enter the key length to brute-force: "))
         
-        return int(choice)
+        print("Brute-forcing...")
 
-    def start_decryption(self):
-        """Start the decryption process based on user input."""
-        if not self.get_input():
-            return
+        for key_tuple in self.brute_force.generate_key_combinations(key_length):
+            key = ''.join(key_tuple)
+            decrypted_message = decrypt(encrypted_message, key)
+            print(f"Trying key: {key} -> {decrypted_message[:30]}...")
 
-        method_choice = self.get_method_choice()
-
-        if method_choice == 1:
-            wordlist_file = os.path.join(os.path.dirname(__file__), "turkish_wordsList.txt")
-            self.wordlist = self.load_wordlist(wordlist_file)
-        
-            # Brute Force Decryption
-            print("\nStarting brute force decryption...")
-
-            decryptor = BruteForceDecryptor(self.encrypted_message, self.wordlist, max_key_length=2)
-            self.decrypted_message = decryptor.brute_force_decrypt()
-
-        elif method_choice == 2:
-            # Frequency Analysis Decryption
-            print("\nStarting frequency analysis decryption...")
-            decryptor = FrequencyAnalysisDecryptor(self.encrypted_message)  # Assuming class exists
-            
-            # Calculate the frequency of letters in the encrypted message
-            encrypted_frequency = decryptor.calculate_frequency()
-            
-            # Match frequencies between encrypted message and Turkish letter frequency
-            letter_mapping = decryptor.match_frequency(encrypted_frequency)
-            
-            # Decrypt the message using the mapped letters
-            self.decrypted_message = decryptor.decrypt_message(letter_mapping)
-
-        # Output the decryption result
-        if self.decrypted_message:
-            print(f"\nDecrypted message: {self.decrypted_message}")
+            if self.brute_force.is_valid_decryption(decrypted_message):
+                print(f"Key found! The key is: {key}")
+                print(f"Decrypted message: {decrypted_message}")
+                break
         else:
-            print("Decryption failed.")
+            print("Failed to decrypt the message with brute-force.")

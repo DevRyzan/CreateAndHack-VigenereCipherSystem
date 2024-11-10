@@ -1,4 +1,3 @@
-import subprocess
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../src')))
@@ -6,9 +5,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../s
 from Clients.SenderAliceClient import SenderAliceClient
 from Clients.ReceiverBobClient import Receiver
 from Hacker.Cleint.HackerOscarClient import HackerOscarClient
-
-url = "https://raw.githubusercontent.com/dwyl/english-words/master/words.txt"
-
 
 class Main:
     def __init__(self):
@@ -27,22 +23,25 @@ class Main:
         print("-----Oscar's dark world-----")
         hack_attempt = input("Do you want to start Hacking (yes/no): ").strip().lower()
 
-        # Check if the user's input is 'y' or 'yes', otherwise skip the hacking attempt
+        # Check if the user's input is 'yes', otherwise skip the hacking attempt
         if hack_attempt in ['y', 'yes']:
-            self.run_decryption()
+            self.run_decryption(encrypted_message)
         elif hack_attempt in ['n', 'no']:
             print("Oscar's hacking attempt was skipped.")
         else:
             print("Invalid input. Please respond with 'yes' or 'no'.")
 
-       
-
-    def run_decryption(self):
+    def run_decryption(self, encrypted_message):
         print("Hacking started")
         
-        # Initialize the hacker client and start the decryption process
-        client = HackerOscarClient()
-        client.start_decryption()
+        # Initialize the hacker client with the path to the wordlist file
+        wordlist_path = "turkish_wordsList.txt"  # Wordlist dosyasının yolunu burada belirtin
+        client = HackerOscarClient(wordlist_path)
+        
+        # Start the decryption process with the provided encrypted message
+        client.start_decryption(encrypted_message)
 
 if __name__ == "__main__":
     Main()
+
+

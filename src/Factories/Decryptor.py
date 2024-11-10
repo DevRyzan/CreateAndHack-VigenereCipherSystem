@@ -1,23 +1,24 @@
 from Models.TurksihAlphabet import TurksihAlphabetProp
 
-
 def decrypt(ciphertext, key):
     turkish_alphabet = TurksihAlphabetProp().turkish_alphabet
+    alphabet_length = len(turkish_alphabet)
     
     plaintext = []
     key_index = 0
     for char in ciphertext:
-        if char.isalpha():  
-            shift = turkish_alphabet.index(key[key_index % len(key)].lower())
+        if char in turkish_alphabet:   
+            shift = turkish_alphabet.index(key[key_index % len(key)])
             
             if char.islower():
-                decrypted_char = turkish_alphabet[(turkish_alphabet.index(char) - shift) % len(turkish_alphabet)]
+                decrypted_char = turkish_alphabet[(turkish_alphabet.index(char) - shift) % alphabet_length]
             elif char.isupper():
-                decrypted_char = turkish_alphabet[(turkish_alphabet.index(char.lower()) - shift) % len(turkish_alphabet)].upper()
+                decrypted_char = turkish_alphabet[(turkish_alphabet.index(char) - shift) % alphabet_length].upper()
             
             plaintext.append(decrypted_char)
             key_index += 1
         else:
+             
             plaintext.append(char)
 
     return ''.join(plaintext)
