@@ -4,10 +4,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../s
 import subprocess  
 from Models.Model import ModelProp
 from Factories.Encryptor import encrypt
-
-
-
-
 class SenderAliceClient:
     def __init__(self):
         self.key_value = ModelProp.get_key()

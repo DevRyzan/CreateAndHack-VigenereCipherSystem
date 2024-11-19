@@ -1,25 +1,19 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../src')))
-
 from Clients.SenderAliceClient import SenderAliceClient
 from Clients.ReceiverBobClient import Receiver
 from Hacker.Cleint.HackerOscarClient import HackerOscarClient
-
 class Main:
     def __init__(self):
          self.run_communication()
-
     def run_communication(self):
          # Initialize the sender client and retrieve the encrypted message
         sender = SenderAliceClient()
         encrypted_message = sender.encrypted_message
-
         # Initialize the receiver client and receive the encrypted message
         receiver = Receiver()
         receiver.receive_message(encrypted_message)
-        
-        # Prompt the user to decide whether Oscar (the hacker) should attempt to decrypt the message
         print("-----Oscar's dark world-----")
         hack_attempt = input("Do you want to start Hacking (yes/no): ").strip().lower()
 
